@@ -4,7 +4,7 @@ import java.util.*;
 
 /**
  * StackSort is a program that will use two stacks to sort an array of integer values.
- * 
+ *
  * @author Charles Hoot
  * @version 4.0
  */
@@ -73,15 +73,43 @@ public class StackSort {
     /**
      * Use two stacks to sort the data in an array
      *
+     * @TODO
      * @param data An array of integer values to be sorted.
-     * @return     An array of sorted integers. 
+     * @return     An array of sorted integers.
      */
     private static int[] doStackSort(int data[]) {
 
     int result[] = new int[data.length];
 
-        
-    // ADD CODE HERE TO SORT THE ARRAY USING TWO STACKS
+
+    StackInterface<Integer> lowerValues = new VectorStack<Integer>();
+    StackInterface<Integer> upperValues = new VectorStack<Integer>();
+
+        for(int i = 0; i < data.length; i++){
+
+          int inputData = data[i];
+
+          while(!lowerValues.isEmpty() && lowerValues.peek() > inputData) {
+            int tmpInt = lowerValues.pop();
+            upperValues.push(tmpInt);
+
+          }
+
+          while(!lowerValues.isEmpty() && upperValues.peek() < inputData) {
+            int tmpInt = upperValues.pop();
+            lowerValues.push(tmpInt);
+
+          }
+
+          upperValues.push(data[i]);
+
+        }
+
+        for(int i = 0; i < data.length; i++){
+
+          int tmpInt = upperValues.pop();
+          result[i] = tmpInt;
+        }
 
         return result;
 
@@ -93,7 +121,7 @@ public class StackSort {
      * @param size The number of data values to generate and place in the array.
      * @param min The minimum value to generate.
      * @param max The maximum value to generate.
-     * @return     An array of randomly generated integers. 
+     * @return     An array of randomly generated integers.
      */
     private static int[] createArray(int size, int min, int max) {
 
@@ -137,7 +165,7 @@ public class StackSort {
     /**
      * Get an integer value
      *
-     * @return     An integer. 
+     * @return     An integer.
      */
     private static int getInt(String rangePrompt) {
         Scanner input;
