@@ -89,26 +89,31 @@ public class StackSort {
 
           int inputData = data[i];
 
-          while(!lowerValues.isEmpty() && lowerValues.peek() > inputData) {
+          while(!lowerValues.isEmpty() && lowerValues.peek() >= inputData) {
             int tmpInt = lowerValues.pop();
             upperValues.push(tmpInt);
-
           }
 
-          while(!lowerValues.isEmpty() && upperValues.peek() < inputData) {
+          while(!upperValues.isEmpty() && upperValues.peek() < inputData) {
             int tmpInt = upperValues.pop();
             lowerValues.push(tmpInt);
-
           }
 
           upperValues.push(data[i]);
-
         }
 
-        for(int i = 0; i < data.length; i++){
+        System.out.println("Lower values: "+lowerValues.toString());
+        System.out.println("Upper values: "+upperValues.toString());
 
-          int tmpInt = upperValues.pop();
-          result[i] = tmpInt;
+        for(int i = 0; i < data.length; i++){
+          if(!upperValues.isEmpty()) {
+            int tmpInt = upperValues.pop();
+            result[i] = tmpInt;
+          }
+          else if(!lowerValues.isEmpty()) {
+            int tmpInt = lowerValues.pop();
+            result[i] = tmpInt;
+          }
         }
 
         return result;
